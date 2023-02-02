@@ -6,7 +6,7 @@ export default () => {
         <Modal
             animationType='slide'
             transparent={true}
-            visible={true}
+            visible={false}
         >
             <View style={styles.center}>
                 <View style={styles.modalView}>
