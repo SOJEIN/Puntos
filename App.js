@@ -8,7 +8,9 @@ export default function App() {
   const [visibilityFilter, setVisibilityFilter] = useState("new_punto")
   const [puntoTemp, setPuntoTemp] = useState({})
   const [visibility, setVisibility] = useState(false)
+  const [poinsFilter, setPoinsFilter] = useState(true)
 
+  const togglePointsFilter = () => setPoinsFilter(!poinsFilter)
 
   const handleLongPress = ({ nativeEvent }) => {
     setVisibilityFilter("new_punto")
@@ -34,12 +36,12 @@ export default function App() {
 
   return (
     <View style={styles.container}>
-      <Map onLongPress={handleLongPress} />
-      <Panel onPressLeft={handleLista} textLeft="Lista" />
+      <Map onLongPress={handleLongPress} puntos={puntos} poinsFilter={poinsFilter} />
+      <Panel onPressLeft={handleLista} textLeft="Lista" togglePointsFilter={togglePointsFilter} />
       <Modal visibility={visibility}>
         {
           visibilityFilter == "new_punto" ?
-            <>
+            <View style={styles.form}>
               <Input
                 title={"Nombre"}
                 placeholder="Nombre del punto"
@@ -49,9 +51,10 @@ export default function App() {
                 title='Guardar'
                 onPress={handleSubmit}
               />
-            </>
+            </View>
             :
-            <List puntos={puntos} />
+            <List puntos={puntos}
+              closeModal={() => setVisibility(false)} />
         }
 
       </Modal>
@@ -66,4 +69,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'flex-start'
   },
+
+  form: {
+    padding: 20,
+  }
 });
